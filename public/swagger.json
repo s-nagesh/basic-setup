@@ -1,0 +1,790 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Basic_setup",
+      "version": "1.0.0"
+    },
+    "host": "localhost:3000",
+    "schemes": [
+      "http",
+      "https"
+    ],
+    "basePath": "/",
+    "consumes": [
+        "application/json"
+      ],
+      "produces": [
+        "application/json"
+      ],
+    "securityDefinitions": {
+        "x-access-token": {
+            "in": "header",
+            "name": "x-access-token",
+            "type": "apiKey"
+          }
+    },
+    "security": [
+      {
+        "x-access-token": []
+      }
+    ],
+    "paths":{
+        "/api/role": {
+            "post": {
+                "description": "Create new role",
+                "tags":[
+                    "role"
+                ],
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "required": true,
+                    "schema":{
+                        "$ref":"#/definitions/addRole"
+                    }
+                }],
+                "responses":{
+                    "201": {
+                        "description": "role is created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "role name list",
+                "tags": [
+                    "role"
+                ],
+                "parameters": [
+                    {
+                        "name": "roleid",
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "role name list",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update role name",
+                "tags": [
+                    "role"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/updateRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "role is updated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete role",
+                "tags": [
+                    "role"
+                ],
+                "parameters": [
+                    {
+                        "name": "roleid",
+                        "in": "query",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "delete role",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/signup": {
+            "post": {
+                "description": "Create new signup in system",
+                "tags": [
+                    "admin"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/signup"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New signup is created",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": true,
+                                "code": 201,
+                                "message": "created",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": false,
+                                "code": 400,
+                                "message": "Bad request",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/signin": {
+            "post": {
+                "description": "signin in system",
+                "tags": [
+                    "admin"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/signin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New signup is created",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": true,
+                                "code": 201,
+                                "message": "created",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": false,
+                                "code": 400,
+                                "message": "Bad request",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/getalluser":{
+            "get": {
+                "description": "get all user",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "userid",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "role name list",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/getdetails":{
+            "get": {
+                "description": "get user and admin details",
+                "tags": [
+                    "user"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "role name list",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/deleteUser":{
+            "delete": {
+                "description": "delete user by admin ",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "userid",
+                        "in": "query",
+                        "type": "string"
+                    }
+                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "role name list",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/updateprofile": {
+            "put": {
+                "description": "update profile",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/updateprofile"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New signup is created",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": true,
+                                "code": 201,
+                                "message": "created",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": false,
+                                "code": 400,
+                                "message": "Bad request",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/updateuserbyadmin": {
+            "put": {
+                "description": "update user by admin",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/updateuserbyadmin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New signup is created",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": true,
+                                "code": 201,
+                                "message": "created",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": false,
+                                "code": 400,
+                                "message": "Bad request",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product": {
+            "post": {
+                "description": "add product",
+                "tags": [
+                    "product"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/addProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New signup is created",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": true,
+                                "code": 201,
+                                "message": "created",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": false,
+                                "code": 400,
+                                "message": "Bad request",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "get all productlist",
+                "tags": [
+                    "product"
+                ],
+                "parameters": [
+                    {
+                        "name": "userid",
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "productid",
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "view",
+                        "in": "query",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "role name list",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update product",
+                "tags": [
+                    "product"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/updateProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New signup is created",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": true,
+                                "code": 201,
+                                "message": "created",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": false,
+                                "code": 400,
+                                "message": "Bad request",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete product",
+                "tags": [
+                    "product"
+                ],
+                "parameters": [
+                    {
+                        "name": "productid",
+                        "in": "query",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "role name list",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions":{
+        "addRole":{
+            "properties":{
+                "rolename":{
+                    "title":"rolename",
+                    "type": "string"
+                }
+            },
+            "required":[
+                "id",
+                "rolename"
+            ]
+        },
+        "updateRole":{
+            "properties":{
+                "id":{
+                    "title":"id",
+                    "type": "integer"
+                },
+                "rolename":{
+                    "title":"rolename",
+                    "type": "string"
+                }
+            },
+            "required":[
+                "id",
+                "rolename"
+            ]
+        },
+        "signup": {
+            "properties": {
+                "first_name": {
+                    "title": "first_name",
+                    "type": "string"
+                },
+                "last_name": {
+                    "title": "last_name",
+                    "type": "string"
+                },
+                "email": {
+                    "title": "email",
+                    "type": "string"
+                },
+                "password": {
+                    "title": "password",
+                    "type": "string"
+                },
+                "role": {
+                    "title": "role",
+                    "type": "integer"
+                }
+            },
+            "required":[
+                "first_name",
+                "last_name",
+                "email",
+                "password",
+                "role"
+            ]
+        },
+        "signin": {
+            "properties": {
+                "email": {
+                    "title": "email",
+                    "type": "string"
+                },
+                "password": {
+                    "title": "password",
+                    "type": "string"
+                }
+            },
+            "required":[
+                "email",
+                "password"
+            ]
+        },
+        "updateprofile": {
+            "properties": {
+                "first_name": {
+                    "title": "first_name",
+                    "type": "string"
+                },
+                "last_name": {
+                    "title": "last_name",
+                    "type": "string"
+                },
+                "email": {
+                    "title": "email",
+                    "type": "string"
+                },
+                "password": {
+                    "title": "password",
+                    "type": "string"
+                }
+            }
+        },
+        "updateuserbyadmin": {
+            "properties": {
+                "userid": {
+                    "title": "userid",
+                    "type": "integer"
+                },
+                "first_name": {
+                    "title": "first_name",
+                    "type": "string"
+                },
+                "last_name": {
+                    "title": "last_name",
+                    "type": "string"
+                },
+                "email": {
+                    "title": "email",
+                    "type": "string"
+                },
+                "password": {
+                    "title": "password",
+                    "type": "string"
+                },
+                "isactive":{
+                    "title": "isactive",
+                    "type": "integer"
+                }
+            },
+            "required":[
+                "userid"
+            ]
+        },
+        "addProduct": {
+            "properties": {
+                "product_name": {
+                    "title": "product_name",
+                    "type": "string"
+                },
+                "price": {
+                    "title": "price",
+                    "type": "integer"
+                },
+                "description": {
+                    "title": "description",
+                    "type": "string"
+                }
+            },
+            "required":[
+                "product_name",
+                "price"
+            ]
+        },
+        "updateProduct": {
+            "properties": {
+                "productid": {
+                    "title": "productid",
+                    "type": "integer"
+                },
+                "product_name": {
+                    "title": "product_name",
+                    "type": "string"
+                },
+                "price": {
+                    "title": "price",
+                    "type": "integer"
+                },
+                "description": {
+                    "title": "description",
+                    "type": "string"
+                },
+                "userid": {
+                    "title": "userid",
+                    "type": "integer"
+                },
+                "view": {
+                    "title": "view",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
