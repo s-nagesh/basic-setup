@@ -11,7 +11,7 @@ module.exports.addRole = async (data) => {
     let { rolename } = data;
     let query = `SELECT rolename FROM role WHERE rolename = '${rolename}'`;
     let query_result = await sqlCmds.getOne(query);
-    if (query_result) return "role are alredy exist";
+    if (query_result) return apiController.respondBad("role are alredy exist");
     let insert_query = `INSERT INTO role (rolename) VALUES('${rolename}')`;
     let response = await sqlCmds.addRecords(insert_query);
     return apiController.respondPost({

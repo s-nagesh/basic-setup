@@ -675,11 +675,13 @@
             "properties": {
                 "email": {
                     "title": "email",
-                    "type": "string"
+                    "type": "string",
+                    "example":"nagesh@gmail.com"
                 },
                 "password": {
                     "title": "password",
-                    "type": "string"
+                    "type": "string",
+                    "example":"1234"
                 }
             },
             "required":[
