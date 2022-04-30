@@ -54,42 +54,6 @@ module.exports.getUserDetails = async (data) => {
   }
 };
 
-module.exports.updateProfile = async (data) => {
-  try {
-    const { error } = await validation.updateProfileValidation(data);
-    if (error) {
-      return error.details[0].message;
-    }
-
-    let { first_name, last_name, email, password } = data;
-    let { id } = data.user;
-    let query = `SELECT * FROM user WHERE  id = ${id}`;
-    let query_result = await sqlCmds.getOne(query);
-
-    if (!query_result) return apiController.respondBad("User does't exist");
-    password = await tokenHelper.generateToken(password);
-    let full_name = `${first_name} ${last_name}`;
-
-    let createdat = new Date().toISOString();
-    let params = [
-      `${first_name}` ? `${first_name}` : query_result.first_name,
-      `${last_name}` ? `${last_name}` : query_result.last_name,
-      `${full_name}` ? `${full_name}` : query_result.full_name,
-      `${email}` ? `${email}` : query_result.email,
-      `${password}` ? `${password}` : query_result.password,
-      createdat,
-      id,
-    ];
-    let sql = `update user set first_name = ?,last_name = ?,full_name = ?,email = ?,password = ?,created_at = ? where id = ? `;
-
-    await sqlCmds.updateRecords(sql, params);
-    return apiController.respondPut(`updated successfully`);
-  } catch (err) {
-    console.log("err", err);
-    return apiController.respondError(err);
-  }
-};
-
 module.exports.updateUserByAdmin = async (data) => {
   try {
     const { error } = await validation.updateUserByAdminValidation(data);
@@ -98,14 +62,22 @@ module.exports.updateUserByAdmin = async (data) => {
     }
 
     let { userid, first_name, last_name, email, password, isactive } = data;
-    let query = `SELECT * FROM user WHERE  id = ${userid}`;
+    let { id, role } = data.user;
+    let query;
+    let update_query;
+    if (role == 2) {
+      query = `SELECT * FROM user WHERE  id = ${id}`;
+      update_query = `update user set first_name = ?,last_name = ?,full_name = ?,email = ?,password = ?,isactive = ? ,created_at = ? where id = ${id} `;
+    } else {
+      query = `SELECT * FROM user WHERE  id = ${id}`;
+      update_query = `update user set first_name = ?,last_name = ?,full_name = ?,email = ?,password = ?,isactive = ? ,created_at = ? where id = ${userid} `;
+    }
     let query_result = await sqlCmds.getOne(query);
 
     if (!query_result) return apiController.respondBad("User does't exist");
 
     password = await tokenHelper.generateToken(password);
     let full_name = `${first_name} ${last_name}`;
-
     let createdat = new Date().toISOString();
     let params = [
       `${first_name}` ? `${first_name}` : query_result.first_name,
@@ -115,11 +87,9 @@ module.exports.updateUserByAdmin = async (data) => {
       `${password}` ? `${password}` : query_result.password,
       isactive ? isactive : query_result.isactive,
       createdat,
-      userid,
     ];
-    let sql = `update user set first_name = ?,last_name = ?,full_name = ?,email = ?,password = ?,isactive = ? ,created_at = ? where id = ? `;
 
-    await sqlCmds.updateRecords(sql, params);
+    await sqlCmds.updateRecords(update_query, params);
     return apiController.respondPut(`updated successfully`);
   } catch (err) {
     console.log("err", err);

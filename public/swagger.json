@@ -244,6 +244,54 @@
                 }
             }
         },
+        "/api/admin/updateprofile": {
+            "put": {
+                "description": "update profile",
+                "tags": [
+                    "admin"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/updateprofile"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New signup is created",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": true,
+                                "code": 201,
+                                "message": "created",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string",
+                            "example": {
+                                "success": false,
+                                "code": 400,
+                                "message": "Bad request",
+                                "data": {
+                                    "token": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/getalluser":{
             "get": {
                 "description": "get all user",
@@ -335,54 +383,6 @@
                         "description": "Bad request",
                         "schema": {
                             "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/user/updateprofile": {
-            "put": {
-                "description": "update profile",
-                "tags": [
-                    "user"
-                ],
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/updateprofile"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "New signup is created",
-                        "schema": {
-                            "type": "string",
-                            "example": {
-                                "success": true,
-                                "code": 201,
-                                "message": "created",
-                                "data": {
-                                    "token": ""
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "type": "string",
-                            "example": {
-                                "success": false,
-                                "code": 400,
-                                "message": "Bad request",
-                                "data": {
-                                    "token": ""
-                                }
-                            }
                         }
                     }
                 }
@@ -676,7 +676,7 @@
                 "email": {
                     "title": "email",
                     "type": "string",
-                    "example":"nagesh@gmail.com"
+                    "example":"nagesh.swami209@gmail.com"
                 },
                 "password": {
                     "title": "password",

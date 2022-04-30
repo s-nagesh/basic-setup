@@ -91,3 +91,39 @@ module.exports.signIn = async (data) => {
     return apiController.respondError(err);
   }
 };
+
+module.exports.updateProfile = async (data) => {
+  try {
+    const { error } = await validation.updateProfileValidation(data);
+    if (error) {
+      return error.details[0].message;
+    }
+
+    let { first_name, last_name, email, password } = data;
+    let { id } = data.user;
+    let query = `SELECT * FROM user WHERE  id = ${id}`;
+    let query_result = await sqlCmds.getOne(query);
+
+    if (!query_result) return apiController.respondBad("User does't exist");
+    password = await tokenHelper.generateToken(password);
+    let full_name = `${first_name} ${last_name}`;
+
+    let createdat = new Date().toISOString();
+    let params = [
+      `${first_name}` ? `${first_name}` : query_result.first_name,
+      `${last_name}` ? `${last_name}` : query_result.last_name,
+      `${full_name}` ? `${full_name}` : query_result.full_name,
+      `${email}` ? `${email}` : query_result.email,
+      `${password}` ? `${password}` : query_result.password,
+      createdat,
+      id,
+    ];
+    let sql = `update user set first_name = ?,last_name = ?,full_name = ?,email = ?,password = ?,created_at = ? where id = ? `;
+
+    await sqlCmds.updateRecords(sql, params);
+    return apiController.respondPut(`Updated successfully`);
+  } catch (err) {
+    console.log("err", err);
+    return apiController.respondError(err);
+  }
+};

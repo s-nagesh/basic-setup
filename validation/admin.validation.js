@@ -27,7 +27,6 @@ module.exports.signInValidation = async (data) => {
 module.exports.updateProfileValidation = async (data) => {
   payload = Joi.object().keys({
     user: Joi.object().allow(),
-    id: Joi.number().required(),
     first_name: Joi.string().allow(""),
     last_name: Joi.string().allow(""),
     email: Joi.string().allow(""),

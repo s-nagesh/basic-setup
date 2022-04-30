@@ -14,24 +14,10 @@ module.exports.getAllUserValidation = async (data) => {
   return schema;
 };
 
-module.exports.updateProfileValidation = async (data) => {
-  payload = Joi.object().keys({
-    user: Joi.object().allow(),
-    first_name: Joi.string().allow(""),
-    last_name: Joi.string().allow(""),
-    email: Joi.string().allow(""),
-    password: Joi.string().allow(""),
-    isactive: Joi.number().allow(),
-  });
-
-  let schema = await payload.validate(data);
-  return schema;
-};
-
 module.exports.updateUserByAdminValidation = async (data) => {
   payload = Joi.object().keys({
     user: Joi.object().allow(),
-    userid: Joi.number().required(),
+    userid: Joi.number().allow(),
     first_name: Joi.string().allow(""),
     last_name: Joi.string().allow(""),
     email: Joi.string().allow(""),
