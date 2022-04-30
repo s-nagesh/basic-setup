@@ -9,8 +9,8 @@ admin can also remove user.
 
 # How to Install and Run the Project
 
-npm i
-nodemon
+step 1 : npm i  
+step 2 : nodemon
 
 # How to run swagger
 
